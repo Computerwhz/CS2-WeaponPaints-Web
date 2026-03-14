@@ -13,10 +13,21 @@ class DataBase {
             die("<pre style='padding: 10px;text-wrap: balance; border: 2px solid #ed6bd3;background: #252525; color: #ed6bd3; width: 50%;'>" . $ex . "</pre>");
         }
     }
+
     public function select($query, $bindings = []) {
         $STH = $this->PDO->prepare($query);
         $STH->execute($bindings);
         $result = $STH->fetchAll(PDO::FETCH_ASSOC);
+		$result ??= false;
+		return $result;
+    }
+
+//  Added for computerwhz server
+    public function checkWhitelist($steamid){
+        $PDO_WHITELIST = new PDO("mysql:host=".DB_HOST."; port=".DB_PORT."; dbname=".DB_NAME_WHITELIST, DB_USER, DB_PASS, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+        $STH = $PDO_WHITELIST->prepare("SELECT * FROM `whitelist` WHERE `value` = :steamid LIMIT 1");
+        $STH->execute(["steamid" => $steamid]);
+        $result = $STH->fetch(PDO::FETCH_ASSOC);
 		$result ??= false;
 		return $result;
     }

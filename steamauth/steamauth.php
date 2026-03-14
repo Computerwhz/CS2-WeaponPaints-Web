@@ -18,6 +18,8 @@ function login () {
 	require 'openid.php';
 	try {
 		require 'SteamConfig.php';
+		require_once __DIR__.'/../class/config.php';
+		require_once __DIR__.'/../class/database.php';
 		$openid = new LightOpenID($steamauth['domainname']);
 		
 		if(!$openid->mode) {
@@ -30,6 +32,15 @@ function login () {
 				$id = $openid->identity;
 				$ptn = "/^https?:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/";
 				preg_match($ptn, $id, $matches);
+
+//              Added for computerwhz server
+				$db = new DataBase();
+				if (!$db->checkWhitelist($matches[1])) {
+					session_unset();
+					session_destroy();
+					header('Location: ./?whitelist=0');
+					exit;
+				}
 				
 				$_SESSION['steamid'] = $matches[1];
 				if (!headers_sent()) {

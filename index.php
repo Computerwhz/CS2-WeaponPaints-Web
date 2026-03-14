@@ -1,9 +1,10 @@
+<?php $notWhitelisted = isset($_GET["whitelist"]) && $_GET["whitelist"] == "0"; ?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CS2 Weapon Paints</title>
+  <title>Computerwhz CS2 Server</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3.6.10/dist/vuetify.min.css">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
@@ -14,7 +15,7 @@
       <!-- Navbar -->
       <v-app-bar color="primary">
         <v-container class="d-flex align-center">
-          <v-app-bar-title>CS2 Weapon Paints</v-app-bar-title>
+          <v-app-bar-title>Computerwhz CS2 Server</v-app-bar-title>
           <v-spacer></v-spacer>
           <template v-if="session.steamid">
             <v-avatar>
@@ -31,6 +32,7 @@
               </v-list>
             </v-menu>
           </template>
+
           <template v-else>
             <a href="./login.php"><img src='https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png'></a>
           </template>
@@ -43,8 +45,9 @@
           <v-list-item prepend-icon="mdi-palette" title="Skins" value="skins"></v-list-item>
           <v-list-item prepend-icon="mdi-boxing-glove" title="Gloves" value="gloves"></v-list-item>
           <v-list-item prepend-icon="mdi-account" title="Agents" value="agents"></v-list-item>
-          <v-list-item prepend-icon="mdi-music" title="Musics" value="musics"></v-list-item>
-          <v-list-item prepend-icon="mdi-police-badge" title="Pins" value="pins"></v-list-item>
+            <!-- Disabled for computerwhz server-->
+<!--          <v-list-item prepend-icon="mdi-music" title="Musics" value="musics"></v-list-item>-->
+<!--          <v-list-item prepend-icon="mdi-police-badge" title="Pins" value="pins"></v-list-item>-->
         </v-list>
       </v-navigation-drawer>
       <v-main class="mt-5" v-if="!loaded">
@@ -55,6 +58,9 @@
         </h1>
       </v-main>
       <v-main class="mt-5" v-else-if="session.steamid.length === 0">
+        <?php if ($notWhitelisted) { ?>
+        <h2 class="text-center text-error">Your Steam account is not whitelisted.</h2>
+        <?php } ?>
         <h1 class="text-center">Please login first.</h1>
       </v-main>
       <template v-else>
@@ -238,9 +244,10 @@
                         <v-col cols="12" md="6">
                           <v-text-field label="Y" v-model="modalSticker.form.y" hide-details></v-text-field>
                         </v-col>
-                        <v-col cols="12" md="6">
-                          <v-text-field label="Scale" v-model="modalSticker.form.scale" hide-details></v-text-field>
-                        </v-col>
+                          <!-- Disabled for computerwhz server-->
+<!--                        <v-col cols="12" md="6">-->
+<!--                          <v-text-field label="Scale" v-model="modalSticker.form.scale" hide-details></v-text-field>-->
+<!--                        </v-col>-->
                         <v-col cols="12" md="6">
                           <v-text-field label="Rotate" v-model="modalSticker.form.rotate" hide-details></v-text-field>
                         </v-col>
@@ -537,14 +544,16 @@
             <v-icon>mdi-account</v-icon>
             <span>Agents</span>
           </v-btn>
-          <v-btn value="musics">
-            <v-icon>mdi-music</v-icon>
-            <span>Musics</span>
-          </v-btn>
-          <v-btn value="pins">
-            <v-icon>mdi-police-badge</v-icon>
-            <span>Pins</span>
-          </v-btn>
+
+            <!-- Disabled for computerwhz server-->
+<!--          <v-btn value="musics">-->
+<!--            <v-icon>mdi-music</v-icon>-->
+<!--            <span>Musics</span>-->
+<!--          </v-btn>-->
+<!--          <v-btn value="pins">-->
+<!--            <v-icon>mdi-police-badge</v-icon>-->
+<!--            <span>Pins</span>-->
+<!--          </v-btn>-->
         </v-bottom-navigation>
       </template>
     </v-app>
